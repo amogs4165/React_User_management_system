@@ -1,10 +1,10 @@
 import React from 'react'
 import Login from '../Components/Login/Login'
 
-function LoginPage() {
+function LoginPage({setUser}) {
   return (
     <>
-        <Login/>
+        <Login setUser={setUser}/>
     </>
   )
 }
