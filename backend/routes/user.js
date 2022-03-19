@@ -1,7 +1,7 @@
-import exp from "express";
+import {Router} from "express";
 import { User, validate } from "../model/user.js";
 import bcrypt from "bcrypt"
-const router=exp.Router()
+const router=Router()
 
 router.post('/',async(req,res)=>{
     try {

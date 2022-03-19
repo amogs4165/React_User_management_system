@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -13,17 +13,18 @@ import {
     Checkbox,
     Button
   } from '@material-ui/core';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 
 function Login() {
 
+    const navigator = useNavigate();
+    const[error,setError] = useState('');
+
     const validationSchema = Yup.object().shape({
-        fullname: Yup.string().required('Fullname is required'),
-        username: Yup.string()
-          .required('Username is required')
-          .min(6, 'Username must be at least 6 characters')
-          .max(20, 'Username must not exceed 20 characters'),
+     
         email: Yup.string()
           .required('Email is required')
           .email('Email is invalid'),
@@ -31,10 +32,7 @@ function Login() {
           .required('Password is required')
           .min(6, 'Password must be at least 6 characters')
           .max(40, 'Password must not exceed 40 characters'),
-        confirmPassword: Yup.string()
-          .required('Confirm Password is required')
-          .oneOf([Yup.ref('password'), null], 'Confirm Password does not match'),
-        acceptTerms: Yup.bool().oneOf([true], 'Accept Terms is required')
+     
       });
 
       const {
@@ -46,8 +44,24 @@ function Login() {
         resolver: yupResolver(validationSchema)
       });
 
-      const onSubmit = data => {
+      const onSubmit = async (data) => {
         console.log(data);
+        try {
+          
+          const url = '/api/auth';
+          const { data: res } = await axios.post(url, data);
+          console.log(res.message)
+          navigator('/')
+          
+        } catch (error) {
+          console.log(error.response.data);
+
+          if (
+            error.response &&
+            error.response.status >= 400 &&
+            error.response.status <= 500
+          ) { setError(error.response.data.message); } 
+        }
       };
     
   return (
@@ -93,6 +107,8 @@ function Login() {
           </Grid>
           
         </Grid>
+        {error && <div >
+            {error}</div>}
         <Box mt={3}>
           <Button
             variant="contained"
