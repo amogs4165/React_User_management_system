@@ -1,14 +1,30 @@
-import express from "express";
+import express, { Router } from "express";
 import cors from 'cors'
 import morgan from 'morgan'
-const app=express()
+import db from "./Config/db.js";
+import userRoute from './routes/user.js';
+import authRoute from './routes/auth.js';
+
+const app = express()
+
+
+
+//data base
+db()
+
+//middlewares
 app.use(express.json())
 app.use(morgan('dev'))
 // app.use(cors())
-app.get('/post',(req,res)=>{
+
+//routes
+app.use("/api/users", userRoute);
+app.use("api/auth", authRoute);
+
+app.get('/post', (req, res) => {
     console.log("top");
-    res.json({data:'api runnung'})
-    console.log('requset')
+    res.json({ data: 'api runnung' })
+    console.log('request')
 })
 
-app.listen(3000,console.log("server connected in 5000"))
+app.listen(3000, console.log("server connected in 3000"))

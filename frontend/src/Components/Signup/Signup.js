@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -13,14 +13,19 @@ import {
     Checkbox,
     Button
   } from '@material-ui/core';
+import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
 
 
 function Signup() {
 
+  const navigator = Navigate();
+  const[error,setError] = useState('')
+
     const validationSchema = Yup.object().shape({
-        fullname: Yup.string().required('Fullname is required'),
-        username: Yup.string()
+        
+        userName: Yup.string()
           .required('Username is required')
           .min(6, 'Username must be at least 6 characters')
           .max(20, 'Username must not exceed 20 characters'),
@@ -34,7 +39,7 @@ function Signup() {
         confirmPassword: Yup.string()
           .required('Confirm Password is required')
           .oneOf([Yup.ref('password'), null], 'Confirm Password does not match'),
-        acceptTerms: Yup.bool().oneOf([true], 'Accept Terms is required')
+        
       });
 
       const {
@@ -46,8 +51,24 @@ function Signup() {
         resolver: yupResolver(validationSchema)
       });
 
-      const onSubmit = data => {
+      const onSubmit = async (data) => { 
         console.log(data);
+        const removeProp = 'confirmPassword';
+        const { [removeProp]: remove, ...modifiedData } = data;
+        
+        try{
+          const url = '/api/users';
+          const {data:res} = await axios.post(url,modifiedData);
+          console.log(res.message)
+          // navigator('/login')
+        }catch(error){
+          console.log(error.response.data);
+          if(
+            error.response &&
+            error.response.status >= 400 &&
+            error.response.status <= 500
+          ){ setError(error.response.data.message);}
+        }
       };
     
   return (
@@ -58,30 +79,16 @@ function Signup() {
           SIGN UP
         </Typography>
         <Grid container spacing={1}>
+          
           <Grid item xs={12} sm={6}>
             <TextField
               required
-              id="fullname"
-              name="fullname"
-              label="Full Name"
-              fullWidth
-              margin="dense"
-              {...register('fullname')}
-              error={errors.fullname ? true : false}
-            />
-            <Typography variant="inherit" color="textSecondary">
-              {errors.fullname?.message}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              required
-              id="username"
-              name="username"
+              id="userName"
+              name="userName"
               label="Username"
               fullWidth
               margin="dense"
-              {...register('username')}
+              {...register('userName')}
               error={errors.username ? true : false}
             />
             <Typography variant="inherit" color="textSecondary">
@@ -135,36 +142,10 @@ function Signup() {
               {errors.confirmPassword?.message}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <FormControlLabel
-              control={
-                <Controller
-                  control={control}
-                  name="acceptTerms"
-                  defaultValue="false"
-                  inputRef={register()}
-                  render={({ field: { onChange } }) => (
-                    <Checkbox
-                      color="primary"
-                      onChange={e => onChange(e.target.checked)}
-                    />
-                  )}
-                />
-              }
-              label={
-                <Typography color={errors.acceptTerms ? 'error' : 'inherit'}>
-                  I have read and agree to the Terms *
-                </Typography>
-              }
-            />
-            <br />
-            <Typography variant="inherit" color="textSecondary">
-              {errors.acceptTerms
-                ? '(' + errors.acceptTerms.message + ')'
-                : ''}
-            </Typography>
-          </Grid>
+         
         </Grid>
+        {error&&<div >
+          {error}</div>}
         <Box mt={3}>
           <Button
             variant="contained"
