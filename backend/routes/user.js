@@ -36,16 +36,17 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.delete('/:userID', async (req, res) => {
+router.delete('/', async (req, res) => {
     try {
-        const userID = req.params.userID
-        const user = await User.findById(userID);
+        const userID = req.query.userID
+        console.log(userID)
 
+        const user = await User.findById(userID);
         if (!user) return res.status(404).json({ message: "user not exist" })
 
         await User.findByIdAndDelete(userID)
-        res.status(201).send({ userDetails: user })
-        console.log(user)
+        res.status(204)
+      
     } catch (error) {
         console.log(error);
     }
