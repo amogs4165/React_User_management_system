@@ -14,18 +14,19 @@ import {
   } from '@material-ui/core';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ADMIN_TOKEN } from '../../utility';
 
 
-function AdminLogin() {
+function AdminLogin({setAdmin}) {
     
     const navigator = useNavigate();
     const[error,setError] = useState('');
 
     const validationSchema = Yup.object().shape({
      
-        email: Yup.string()
-          .required('Email is required')
-          .email('Email is invalid'),
+        adminName: Yup.string()
+          .required('Admin name is required'),
+       
         password: Yup.string()
           .required('Password is required')
           .min(6, 'Password must be at least 6 characters')
@@ -46,13 +47,15 @@ function AdminLogin() {
         console.log(data);
         try {
           
-          const url = '/api/adminAuth';
+          const url = '/api/auth/admin';
           const { data: res } = await axios.post(url, data);
-          console.log(res.message)
+          console.log(res.data)
+          localStorage.setItem(ADMIN_TOKEN,res.data)
+          setAdmin(localStorage.getItem(ADMIN_TOKEN))
           navigator('/adminIndex')
           
         } catch (error) {
-          console.log(error.response.data);
+          console.log(error);
 
           if (
             error.response &&
@@ -75,16 +78,16 @@ function AdminLogin() {
           <Grid item xs={12} sm={12}>
             <TextField
               required
-              id="email"
-              name="email"
-              label="Email"
+              id="adminName"
+              name="adminName"
+              label="Admin name"
               fullWidth
               margin="dense"
-              {...register('email')}
-              error={errors.email ? true : false}
+              {...register('adminName')}
+              error={errors.adminName ? true : false}
             />
             <Typography variant="inherit" color="textSecondary">
-              {errors.email?.message}
+              {errors.adminName?.message}
             </Typography>
           </Grid>
           <Grid item xs={12} sm={12}>
