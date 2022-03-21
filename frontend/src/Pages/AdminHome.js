@@ -5,12 +5,15 @@ import Footer from '../Components/Footer/Footer'
 import admin from '../Components/Content/Admin'
 import Admin from '../Components/Content/Admin'
 
+
 function AdminHome() {
   return (
     <>
-        <Header/>
-        <Admin/>     
-        <Footer/>
+     
+        <Header admin = {true} /> 
+        <Admin /> 
+        <Footer /> 
+
     </>
   )
 }

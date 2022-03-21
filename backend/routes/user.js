@@ -26,9 +26,39 @@ router.post('/', async (req, res) => {
     }
 })
 
+router.post('/:userID', async (req, res) => {
+    try {
+        console.log(req.body,"heu");
+        const userID = req.params.userID;
+
+        const { error } = validate(req.body)
+        if (error) return res.status(400).json({ message: error.details[0].message });
+
+        const salt = await bcrypt.genSalt(Number(process.env.SALT));
+        const hashPassword = await bcrypt.hash(req.body.password, salt);
+
+        await User.updateOne({_id:userID},{ ...req.body, password: hashPassword });
+        res.status(201).json({ message: 'User created succesfully' })
+
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error" })
+    }
+})
+
 router.get('/', async (req, res) => {
     try {
         const user = await User.find()
+        res.status(201).json({ userDetails: user })
+        console.log(user)
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.get('/:userID', async (req, res) => {
+    try {
+        const userID = req.params.userID
+        const user = await User.findById(userID);
         res.status(201).json({ userDetails: user })
         console.log(user)
     } catch (error) {
@@ -45,7 +75,7 @@ router.delete('/', async (req, res) => {
         if (!user) return res.status(404).json({ message: "user not exist" })
 
         await User.findByIdAndDelete(userID)
-        res.status(204)
+        res.status(204).json({status:"true"})
       
     } catch (error) {
         console.log(error);

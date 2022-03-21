@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -18,13 +18,33 @@ import { useNavigate } from "react-router-dom";
 
 
 
-function Signup() {
-  console.log("start");
-  const navigate = useNavigate();
-  console.log("end");
-
+function Signup({ userID }) {
 
   const [error, setError] = useState('')
+  const [email, setvalueEmail] = useState('')
+
+  const [name, setName] = useState('')
+  const [userDetails, setUserDetails] = useState({})
+  console.log(name)
+
+  useEffect(() => {
+    userID && getUserDetail()
+  }, [])
+
+  const url = `/api/users/${userID}`
+
+  const getUserDetail = async () => {
+    await axios.get(url).then((resp) => {
+      setUserDetails(resp.data.userDetails);
+      // setvalueEmail(resp.data.userDetails.email);
+      // console.log(resp.data.userDetails)
+      setValue("userName", resp.data.userDetails.userName)
+      setValue("email", resp.data.userDetails.email)
+    })
+  }
+
+  const navigate = useNavigate();
+
 
   const validationSchema = Yup.object().shape({
 
@@ -49,6 +69,7 @@ function Signup() {
     register,
     control,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm({
     resolver: yupResolver(validationSchema)
@@ -61,12 +82,12 @@ function Signup() {
 
     try {
 
-      const url = '/api/users';
+      const url = userID ? `/api/users/${userID}` : '/api/users';
       const { data: res } = await axios.post(url, modifiedData);
       console.log(res.message)
-      navigate('/login')
-  
-     
+      userID ? navigate('/adminIndex') : navigate('/login')
+
+
     } catch (error) {
       console.log(error.response.data);
       if (
@@ -82,7 +103,7 @@ function Signup() {
       <Paper style={{ maxWidth: '500px' }}>
         <Box px={3} py={2} boxShadow={5}>
           <Typography variant="h6" align="center" margin="dense">
-            SIGN UP
+            {userID ? "MODIFY USER" : "SIGNUP"}
           </Typography>
           <Grid container spacing={1}>
 
@@ -91,7 +112,8 @@ function Signup() {
                 required
                 id="userName"
                 name="userName"
-                label="Username"
+                placeholder='User Name'
+               
                 fullWidth
                 margin="dense"
                 {...register('userName')}
@@ -106,7 +128,7 @@ function Signup() {
                 required
                 id="email"
                 name="email"
-                label="Email"
+                placeholder='email'
                 fullWidth
                 margin="dense"
                 {...register('email')}
@@ -121,7 +143,7 @@ function Signup() {
                 required
                 id="password"
                 name="password"
-                label="Password"
+                placeholder='Password'
                 type="password"
                 fullWidth
                 margin="dense"
@@ -137,7 +159,8 @@ function Signup() {
                 required
                 id="confirmPassword"
                 name="confirmPassword"
-                label="Confirm Password"
+                
+                placeholder='Confirm Password'
                 type="password"
                 fullWidth
                 margin="dense"
@@ -158,11 +181,12 @@ function Signup() {
               color="primary"
               onClick={handleSubmit(onSubmit)}
             >
-              Register
+              {userID ? 'Update' : "Register"}
             </Button>
           </Box>
         </Box>
       </Paper>
+
     </div>
   )
 }
