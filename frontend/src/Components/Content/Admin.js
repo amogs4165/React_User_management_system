@@ -82,14 +82,14 @@ function Admin() {
   
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <div style={{ paddingTop: '50px', height: 400, width: '50rem' }}>
+      <div style={{ paddingTop: '100px', height: 400, width: '70rem' }}>
         <DataGrid
           rows={rows}
           getRowId={(row) => row._id}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
-          isRowSelectable={true}
+         
 
         />
       </div>

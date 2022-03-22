@@ -3,6 +3,9 @@
     padding: 0;
   }
 .header{
+  top: 0;
+    width: 100%;
+    position: sticky;
     padding-top: 10px;
     background-color: rgb(16, 16, 59);
     height: 50px;

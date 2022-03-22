@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import {
@@ -8,8 +8,6 @@ import {
   Grid,
   TextField,
   Typography,
-  FormControlLabel,
-  Checkbox,
   Button,
 } from "@material-ui/core";
 import axios from "axios";
@@ -17,7 +15,9 @@ import { useNavigate } from "react-router-dom";
 import { TOKEN } from "../../utility";
 
 function Login({ setUser }) {
+
   const navigator = useNavigate();
+
   const [error, setError] = useState("");
 
   const validationSchema = Yup.object().shape({
@@ -30,15 +30,22 @@ function Login({ setUser }) {
 
   const {
     register,
-    control,
     handleSubmit,
+    setFocus,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
 
+
+  const focus = () => setFocus('email')
+
+  useEffect(() => {
+    focus()
+  }, []);
+
   const onSubmit = async (data) => {
-    console.log(data);
+   
     try {
       const url = "/api/auth?jey[key]=value&jey[key2]=value2";
       const { data: res } = await axios.post(url, data);
@@ -82,15 +89,19 @@ function Login({ setUser }) {
                 id="email"
                 name="email"
                 label="Email"
+
                 fullWidth
                 margin="dense"
                 {...register("email")}
+
                 error={errors.email ? true : false}
+
               />
               <Typography variant="inherit" color="textSecondary">
                 {errors.email?.message}
               </Typography>
             </Grid>
+
             <Grid item xs={12} sm={12}>
               <TextField
                 required

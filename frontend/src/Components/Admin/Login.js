@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { useForm, Controller } from 'react-hook-form';
+import React, { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import {
@@ -8,8 +8,6 @@ import {
     Grid,
     TextField,
     Typography,
-    FormControlLabel,
-    Checkbox,
     Button
   } from '@material-ui/core';
 import axios from 'axios';
@@ -36,12 +34,18 @@ function AdminLogin({setAdmin}) {
 
       const {
         register,
-        control,
+        setFocus,
         handleSubmit,
         formState: { errors }
       } = useForm({
         resolver: yupResolver(validationSchema)
       });
+
+      const focus = () => setFocus('adminName')
+
+      useEffect(() => {
+        focus()
+      }, []);
 
       const onSubmit = async (data) => {
         console.log(data);

@@ -1,16 +1,21 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import './Header.css'
 import Button from '@mui/material/Button';
 import { ADMIN_TOKEN, TOKEN } from '../../utility';
 import { useNavigate } from 'react-router-dom';
-import { checkAdmin } from '../../Pages/Signup';
+import { myContext } from '../../App';
 
 
 function Header({admin}) {
-  const value = useContext(checkAdmin)
+  const value = useContext(myContext)
+  console.log(value.setAdmin)
+  const setAdmin = value.setAdmin
+  const setUser = value.setUser
+
+  
   console.log(admin,"hhh")
-  const logout = () => localStorage.removeItem(TOKEN)
-  const adminLogout = () => localStorage.removeItem(ADMIN_TOKEN)
+  const logout = () =>{ localStorage.removeItem(TOKEN); setUser(null)}
+  const adminLogout = () =>{ localStorage.removeItem(ADMIN_TOKEN);setAdmin(null)}
   const navigate = useNavigate()
 
   return (

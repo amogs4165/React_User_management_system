@@ -4,7 +4,7 @@ import LoginPage from "./Pages/Login";
 import SignupPage from "./Pages/Signup";
 import Adminlogin from "./Pages/AdminLogin";
 import { ADMIN_TOKEN, TOKEN } from './utility'
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import AdminHome from "./Pages/AdminHome";
 
 export const myContext = createContext()
@@ -17,7 +17,7 @@ function App() {
     <div className="App">
 
       <Router>
-        <myContext.Provider value={{user:user,admin:admin}}>
+        <myContext.Provider value={{user:user,admin:admin,setAdmin:setAdmin,setUser:setUser}}>
         <Routes>
           <Route path="/" element={user ? <Home /> : <Navigate to='/login' />} />
           <Route path="/login" element={!user?<LoginPage setUser={setUser} />: <Navigate to='/' />} />
