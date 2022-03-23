@@ -14,11 +14,11 @@ import {
   Button
 } from '@material-ui/core';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
-function Signup({ userID }) {
+function Signup({ userID,createUser }) {
 
   const [error, setError] = useState('')
   const [email, setvalueEmail] = useState('')
@@ -85,7 +85,7 @@ function Signup({ userID }) {
       const url = userID ? `/api/users/${userID}` : '/api/users';
       const { data: res } = await axios.post(url, modifiedData);
       console.log(res.message)
-      userID ? navigate('/adminIndex') : navigate('/login')
+      userID ? navigate('/adminIndex') : createUser ? navigate('/adminIndex') : navigate('/login')
 
 
     } catch (error) {
@@ -103,7 +103,7 @@ function Signup({ userID }) {
       <Paper style={{ maxWidth: '500px' }}>
         <Box px={3} py={2} boxShadow={5}>
           <Typography variant="h6" align="center" margin="dense">
-            {userID ? "MODIFY USER" : "SIGNUP"}
+            {userID ? "MODIFY USER" : createUser ? "CREATE USER" : "SIGNUP"}
           </Typography>
           <Grid container spacing={1}>
 
@@ -113,7 +113,7 @@ function Signup({ userID }) {
                 id="userName"
                 name="userName"
                 placeholder='User Name'
-               
+
                 fullWidth
                 margin="dense"
                 {...register('userName')}
@@ -159,7 +159,7 @@ function Signup({ userID }) {
                 required
                 id="confirmPassword"
                 name="confirmPassword"
-                
+
                 placeholder='Confirm Password'
                 type="password"
                 fullWidth
@@ -183,6 +183,8 @@ function Signup({ userID }) {
             >
               {userID ? 'Update' : "Register"}
             </Button>
+            {userID ? '': createUser ? '' : <Link to="/" style={{ textDecoration:'none', cursor: 'pointer', marginTop: '5px', marginLeft: '10rem' }}>Already a user? Sign in here</Link>}
+
           </Box>
         </Box>
       </Paper>

@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
+import { myContext } from '../../App';
 
 
 
 function Admin() {
+  const context = useContext(myContext)
+  const setUser = context.setUser
   const navigate = useNavigate()
   const [userDetails, setuserDetails] = useState([])
 
@@ -17,6 +19,7 @@ function Admin() {
         alert(two._id)
         setuserDetails(userDetails.filter(value => {
           if (two._id !== value._id) return true
+          setUser(null)
         }))
       })
   }

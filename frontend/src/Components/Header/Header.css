@@ -10,6 +10,8 @@
     background-color: rgb(16, 16, 59);
     height: 50px;
     color: cornsilk;
+    z-index: 8;
+
    
  
 }

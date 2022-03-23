@@ -22,6 +22,7 @@ function App() {
           <Route path="/" element={user ? <Home /> : <Navigate to='/login' />} />
           <Route path="/login" element={!user?<LoginPage setUser={setUser} />: <Navigate to='/' />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/createUser" element={<SignupPage createUser={true}/>} />
           <Route path="/modify/:userId" element={<SignupPage admin={true}/>} />
           <Route path="/admin" element={admin?<Navigate to='/adminIndex'/>:<Adminlogin setAdmin={setAdmin}/>} />
           <Route path="/adminIndex" element={admin?<AdminHome/>:<Navigate to='/admin'/>} />

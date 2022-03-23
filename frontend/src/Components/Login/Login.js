@@ -11,7 +11,7 @@ import {
   Button,
 } from "@material-ui/core";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { TOKEN } from "../../utility";
 
 function Login({ setUser }) {
@@ -128,8 +128,11 @@ function Login({ setUser }) {
             >
               Sign In
             </Button>
+            <Link to="/signup" style={{ textDecoration:'none', marginTop: '5px', marginLeft: '3rem' }}>Dont have an account? click here</Link>
+         
           </Box>
         </Box>
+        
       </Paper>
     </div>
   );

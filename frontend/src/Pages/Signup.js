@@ -5,9 +5,9 @@ import Header from '../Components/Header/Header';
 import Signup from '../Components/Signup/Signup'
 
 export const checkAdmin = createContext()
-function SignupPage({admin}) {
+function SignupPage({admin,createUser}) {
 
-  if(admin) console.log("amdin turue");
+  
   const adminStatus = admin ? true : false;
   const {userId} = useParams();
   console.log(adminStatus)
@@ -15,7 +15,7 @@ function SignupPage({admin}) {
     <>
     <checkAdmin.Provider value={admin ? admin = true:admin = false}>
       {admin && <Header admin={true}/>}
-        <Signup userID = {userId} />
+        <Signup userID = {userId} createUser = {createUser}/>
       {admin && <Footer/>}
     </checkAdmin.Provider>
     </>

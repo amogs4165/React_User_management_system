@@ -29,7 +29,7 @@ function Header({admin}) {
             <h1>Welcome</h1>
           </div>
           <div>
-            {admin && <Button style={{marginRight:'5px'}} onClick={() => navigate('/signup')} variant="contained">Create User</Button>}
+            {admin && <Button style={{marginRight:'5px'}} onClick={() => navigate('/createUser')} variant="contained">Create User</Button>}
             <Button onClick={() => admin ?adminLogout() :logout()} variant="contained">Logout</Button>
           </div>
 
