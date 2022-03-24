@@ -13,11 +13,12 @@ function App() {
   const [user, setUser] = useState(localStorage.getItem(TOKEN))
   const [admin, setAdmin] = useState(localStorage.getItem(ADMIN_TOKEN))
 
+
   return (
     <div className="App">
 
       <Router>
-        <myContext.Provider value={{user:user,admin:admin,setAdmin:setAdmin,setUser:setUser}}>
+        <myContext.Provider value={{user:user,admin:admin,setAdmin:setAdmin,setUser}}>
         <Routes>
           <Route path="/" element={user ? <Home /> : <Navigate to='/login' />} />
           <Route path="/login" element={!user?<LoginPage setUser={setUser} />: <Navigate to='/' />} />

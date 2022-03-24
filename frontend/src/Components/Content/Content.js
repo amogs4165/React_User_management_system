@@ -1,11 +1,40 @@
 import * as React from "react";
+import { useEffect, useContext } from "react";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import ImageListItemBar from "@mui/material/ImageListItemBar";
 import { Box, Grid, Typography, Button } from "@material-ui/core";
 import { Container } from "@material-ui/core";
+import { myContext } from "../../App";
+
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
+  const value = useContext(myContext);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: "/api/home",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        console.log("success");
+      })
+      .catch((error) => {
+        console.log(error.response);
+        console.log("hi");
+        value.setUser(null)
+        localStorage.removeItem("token");
+        navigate("/login");
+      });
+  }, []);
+
   return (
     <>
       <Container>

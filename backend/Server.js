@@ -4,6 +4,7 @@ import morgan from 'morgan'
 import db from "./Config/db.js";
 import userRoute from './routes/user.js';
 import authRoute from './routes/auth.js';
+import home from './routes/homePage.js';
 import dotenv from 'dotenv'
 
 const app = express()
@@ -21,6 +22,7 @@ app.use(morgan('dev'))
 //routes
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
+app.use("/api/home", home)
 
 app.get('/post', (req, res) => {
     console.log("top");

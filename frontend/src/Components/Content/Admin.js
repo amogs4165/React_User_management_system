@@ -16,10 +16,10 @@ function Admin() {
   const deleteUser = async (one, two) => {
     axios.delete(`/api/users?userID=${two._id}`)
       .then((response) => {
-        alert(two._id)
+        setUser(null)
         setuserDetails(userDetails.filter(value => {
           if (two._id !== value._id) return true
-          setUser(null)
+          
         }))
       })
   }

@@ -8,7 +8,7 @@ import { myContext } from '../../App';
 
 function Header({admin}) {
   const value = useContext(myContext)
-  console.log(value.setAdmin)
+  
   const setAdmin = value.setAdmin
   const setUser = value.setUser
 

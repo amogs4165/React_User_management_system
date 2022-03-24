@@ -47,7 +47,7 @@ function Login({ setUser }) {
   const onSubmit = async (data) => {
    
     try {
-      const url = "/api/auth?jey[key]=value&jey[key2]=value2";
+      const url = "/api/auth?jey[key]=value";
       const { data: res } = await axios.post(url, data);
       console.log(res.data);
       localStorage.setItem(TOKEN, res.data);
