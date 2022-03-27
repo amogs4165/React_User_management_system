@@ -10,15 +10,17 @@ import AdminHome from "./Pages/AdminHome";
 export const myContext = createContext()
 
 function App() {
+
   const [user, setUser] = useState(localStorage.getItem(TOKEN))
   const [admin, setAdmin] = useState(localStorage.getItem(ADMIN_TOKEN))
+  const [dataUpdate, setDataUpdate] = useState(false)
 
 
   return (
     <div className="App">
 
       <Router>
-        <myContext.Provider value={{user:user,admin:admin,setAdmin:setAdmin,setUser}}>
+        <myContext.Provider value={{user:user,admin:admin,dataUpdate:dataUpdate,setAdmin:setAdmin,setUser,setDataUpdate}}>
         <Routes>
           <Route path="/" element={user ? <Home /> : <Navigate to='/login' />} />
           <Route path="/login" element={!user?<LoginPage setUser={setUser} />: <Navigate to='/' />} />

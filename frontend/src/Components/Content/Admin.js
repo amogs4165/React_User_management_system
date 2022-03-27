@@ -10,6 +10,8 @@ import { myContext } from '../../App';
 function Admin() {
   const context = useContext(myContext)
   const setUser = context.setUser
+  const dataUpdate = context.dataUpdate
+  const setDataUpdate = context.setDataUpdate
   const navigate = useNavigate()
   const [userDetails, setuserDetails] = useState([])
 
@@ -29,13 +31,14 @@ function Admin() {
   const url = "/api/users"
 
   useEffect(() => {
-  
+    console.log("jhey")
+    setDataUpdate(false)
     axios.get(url).then((resp) => {
       setuserDetails(resp.data.userDetails)
 
     })
 
-  }, [])
+  }, [dataUpdate])
 
   const columns = [
     { field: 'num', headerName: 'No', width: 70 },
