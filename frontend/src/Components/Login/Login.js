@@ -129,10 +129,8 @@ function Login({ setUser }) {
               Sign In
             </Button>
             <Link to="/signup" style={{ textDecoration:'none', marginTop: '5px', marginLeft: '3rem' }}>Dont have an account? click here</Link>
-         
           </Box>
         </Box>
-        
       </Paper>
     </div>
   );

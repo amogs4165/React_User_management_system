@@ -6,15 +6,6 @@ import axios from 'axios'
 
 function Home() {
 
-  useEffect(() => {
-    const fetchData=async()=>{
-      const {data}=await axios.get('/post')
-      console.log(data)
-    }
-    fetchData()
-  }, [])
-  
-
   return (
     <>
         <Header/>

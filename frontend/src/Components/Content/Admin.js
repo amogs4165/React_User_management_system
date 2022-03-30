@@ -5,8 +5,6 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { myContext } from '../../App';
 
-
-
 function Admin() {
   const context = useContext(myContext)
   const setUser = context.setUser
@@ -82,8 +80,6 @@ function Admin() {
   ];
 
   const modifiedUserDetails = userDetails.map((user, index) => { user.num = index + 1; return user })
-
-
   const rows = modifiedUserDetails
   
   return (
@@ -96,7 +92,6 @@ function Admin() {
           pageSize={5}
           rowsPerPageOptions={[5]}
          
-
         />
       </div>
     </div>

@@ -6,7 +6,6 @@ import { myContext } from '../../App';
 import { useForm, Controller } from 'react-hook-form';
 import Modal from '@mui/material/Modal';
 import * as Yup from 'yup';
-
 import {
   Paper,
   Box,
@@ -19,8 +18,6 @@ import {
 } from '@material-ui/core';
 import axios from 'axios';
 import { yupResolver } from '@hookform/resolvers/yup';
-
-
 
 const style = {
   position: 'absolute',
@@ -43,12 +40,10 @@ function Header({ admin }) {
   const setAdmin = value.setAdmin
   const setUser = value.setUser
   const setDataUpdate = value.setDataUpdate
-
   const logout = () => { localStorage.removeItem(TOKEN); setUser(null) }
   const adminLogout = () => { localStorage.removeItem(ADMIN_TOKEN); setAdmin(null) }
   const navigate = useNavigate()
   const [error, setError] = useState('')
-
   const validationSchema = Yup.object().shape({
 
     userName: Yup.string()
@@ -79,7 +74,7 @@ function Header({ admin }) {
   });
 
   const onSubmit = async (data) => {
-   
+ 
     const removeProp = 'confirmPassword';
     const { [removeProp]: remove, ...modifiedData } = data;
     

@@ -10,7 +10,6 @@ import dotenv from 'dotenv'
 const app = express()
 dotenv.config()
 
-
 //data base
 db()
 
@@ -22,12 +21,6 @@ app.use(morgan('dev'))
 //routes
 app.use("/api/users", userRoute);
 app.use("/api/auth", authRoute);
-app.use("/api/home", home)
-
-app.get('/post', (req, res) => {
-    console.log("top");
-    res.json({ data: 'api runnung' })
-    console.log('request')
-})
+app.use("/api/home", home);
 
 app.listen(3000, console.log("server connected in 3000"))
